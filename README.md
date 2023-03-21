@@ -1,2 +1,2 @@
-# algorithms
-Repository for design and analysis of algorithms
+# Algorithms
+Repository for Design and Analysis of Algorithms
