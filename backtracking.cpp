@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 #include <iomanip>
 
 class Position {
@@ -21,20 +20,23 @@ public:
     KnightTour(int n, const Position& start_pos);
     void solve();
     void print_solution() const;
+    int** solution() {
+        return solution_;
+    }
 private:
     bool solve_knight_tour(const Position& pos, int move_number);
     void initialize_solution();
     int n_;
     Position start_pos_;
-    std::vector<std::vector<int>> solution_;
-    const std::vector<Position> moves_ = {{2, 1},
-                                          {1, 2},
-                                          {-1, 2},
-                                          {-2, 1},
-                                          {1, -2},
-                                          {2, -1},
-                                          {-2, -1},
-                                          {-1, -2}};
+    int** solution_;
+    const Position moves_[8] = {{2, 1},
+                                {1, 2},
+                                {-1, 2},
+                                {-2, 1},
+                                {1, -2},
+                                {2, -1},
+                                {-2, -1},
+                                {-1, -2}};
 };
 
 KnightTour::KnightTour(int n, const Position& start_pos): n_{n}, start_pos_{start_pos} {
@@ -47,9 +49,9 @@ void KnightTour::solve() {
 }
 
 void KnightTour::print_solution() const {
-    for (const auto& row : solution_) {
-        for (const auto& value : row) {
-            std::cout << " " << std::setw(2) << value << " ";
+    for (int i = 0; i < n_; i++) {
+        for (int j = 0; j < n_; j++) {
+            std::cout << " " << std::setw(2) << solution_[i][j] << " ";
         }
         std::cout << std::endl;
     }
@@ -60,10 +62,9 @@ bool KnightTour::solve_knight_tour(const Position& pos, int move_number) {
         return true;
     }
 
-    for (const auto& move : moves_) {
-        const int next_x = pos.x() + move.x();
-        const int next_y = pos.y() + move.y();
-        const Position next_pos(next_x, next_y);
+    for (int i = 0; i < 8; i++) {
+        const int next_x = pos.x() + moves_[i].x();
+        const int next_y = pos.y() + moves_[i].y();
 
         if (next_x >= 0 &&
             next_x < n_ &&
@@ -72,6 +73,7 @@ bool KnightTour::solve_knight_tour(const Position& pos, int move_number) {
             solution_[next_x][next_y] == -1)
         {
             solution_[next_x][next_y] = move_number;
+            const Position next_pos(next_x, next_y);
             if (solve_knight_tour(next_pos, move_number + 1)) {
                 return true;
             } else {
@@ -83,7 +85,13 @@ bool KnightTour::solve_knight_tour(const Position& pos, int move_number) {
 }
 
 void KnightTour::initialize_solution() {
-    solution_.resize(n_, std::vector<int>(n_, -1));
+    solution_ = new int*[n_];
+    for (int i = 0; i < n_; i++) {
+        solution_[i] = new int[n_];
+        for (int j = 0; j < n_; j++) {
+            solution_[i][j] = -1;
+        }
+    }
 }
 
 int main() {
