@@ -3,7 +3,7 @@
 
 class Position {
 public:
-Position(int x, int y): x_{x}, y_{y} {}
+    Position(int x, int y): x_{x}, y_{y} {}
     int x() const {
         return x_;
     }
