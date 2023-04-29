@@ -4,9 +4,13 @@
 
 class Position {
 public:
-    Position(int x, int y) : x_{x}, y_{y} {}
-    int x() const { return x_; }
-    int y() const { return y_; }
+    Position(int x, int y): x_{x}, y_{y} {}
+    int x() const {
+        return x_;
+    }
+    int y() const {
+        return y_;
+    }
 private:
     int x_;
     int y_;
@@ -23,12 +27,17 @@ private:
     int n_;
     Position start_pos_;
     std::vector<std::vector<int>> solution_;
-    const std::vector<Position> moves_ = {{2, 1}, {1, 2}, {-1, 2}, {-2, 1}, {-2, -1}, {-1, -2}, {1, -2}, {2, -1}};
+    const std::vector<Position> moves_ = {{2, 1},
+                                          {1, 2},
+                                          {-1, 2},
+                                          {-2, 1},
+                                          {1, -2},
+                                          {2, -1},
+                                          {-2, -1},
+                                          {-1, -2}};
 };
 
-KnightTour::KnightTour(int n, const Position& start_pos)
-    : n_{n}, start_pos_{start_pos}
-{
+KnightTour::KnightTour(int n, const Position& start_pos): n_{n}, start_pos_{start_pos} {
     initialize_solution();
     solution_[start_pos_.x()][start_pos_.y()] = 0;
 }
