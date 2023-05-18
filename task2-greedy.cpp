@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-
+const int n = 5;
 class position {
 public:
     int* get() {
@@ -32,13 +32,11 @@ private:
     int column;
 };
 
-// return the indices of the possible moves from current position 
-// (only check for elgibility of index to be within boundaries of the 2d array, doesnot check wether the square is visited or not)
 position* getPossibleMoves(position currentP,int* size) {
     position* possibleMoves=new position[8];
     int* current = currentP.get();
-    if (current[1] + 2 < 8 and current[1] + 2 > -1) {
-        if (current[0] + 1 < 8) {
+    if (current[1] + 2 < n and current[1] + 2 > -1) {
+        if (current[0] + 1 < n) {
             possibleMoves[*size] = position(current[0] + 1, current[1] + 2);
             (*size)++;
         }
@@ -48,8 +46,8 @@ position* getPossibleMoves(position currentP,int* size) {
         }
     }
     
-    if (current[0] + 2 < 8 and current[0] + 2 > -1) {
-        if (current[1] + 1 < 8) {
+    if (current[0] + 2 < n and current[0] + 2 > -1) {
+        if (current[1] + 1 < n) {
             possibleMoves[*size]= position(current[0] + 2, current[1] + 1);
             (*size)++;
         }
@@ -59,8 +57,8 @@ position* getPossibleMoves(position currentP,int* size) {
         }
     }
                 
-    if (current[1] - 2 > -1 and current[1] - 2 < 8) {
-        if (current[0] + 1 < 8) {
+    if (current[1] - 2 > -1 and current[1] - 2 < n) {
+        if (current[0] + 1 < n) {
             possibleMoves[*size] =  position(current[0] + 1, current[1] - 2);
             (*size)++;
         }
@@ -70,8 +68,8 @@ position* getPossibleMoves(position currentP,int* size) {
         }
     }
     
-    if (current[0] - 2 > -1 and current[0] - 2 < 8) {
-        if (current[1] + 1 < 8) {
+    if (current[0] - 2 > -1 and current[0] - 2 < n) {
+        if (current[1] + 1 < n) {
             possibleMoves[*size] =  position(current[0] - 2, current[1] + 1);
             (*size)++;
         }
@@ -83,16 +81,14 @@ position* getPossibleMoves(position currentP,int* size) {
     return possibleMoves;
 }
 
-// this function calculates the available moves for each next move from current position so that 
-// we select the next position with least available moves considering the current square as visited.
-int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)[8][8]) {
+int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)[n][n]) {
     int moveCount = 0;
     int* current = currentP.get();
     int temp = (*myBoard)[current[0]][current[1]];
     (*myBoard)[current[0]][current[1]] = 1;
     int* nextMove = nextP.get();
-    if (nextMove[1] + 2 < 8) {
-        if (nextMove[0] + 1 < 8) {
+    if (nextMove[1] + 2 < n) {
+        if (nextMove[0] + 1 < n) {
             if ((*myBoard)[nextMove[0] + 1][nextMove[1] + 2] == 0) {
                 moveCount += 1;
             }
@@ -104,8 +100,8 @@ int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)
         }
     }
     
-    if (nextMove[0] + 2 < 8) {
-        if (nextMove[1] + 1 < 8) {
+    if (nextMove[0] + 2 < n) {
+        if (nextMove[1] + 1 < n) {
             if ((*myBoard)[nextMove[0] + 2][nextMove[1] + 1] == 0) {
                 moveCount += 1;
             }
@@ -118,7 +114,7 @@ int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)
     }
 
     if (nextMove[1] - 2 > -1) {
-        if (nextMove[0] + 1 < 8) {
+        if (nextMove[0] + 1 < n) {
             if ((*myBoard)[nextMove[0] + 1][nextMove[1] - 2] == 0) {
                 moveCount += 1;
             }
@@ -131,7 +127,7 @@ int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)
     }
 
     if (nextMove[0] - 2 > -1) {
-        if (nextMove[1] + 1 < 8) {
+        if (nextMove[1] + 1 < n) {
             if ((*myBoard)[nextMove[0] - 2][nextMove[1] + 1] == 0) {
                 moveCount += 1;
             }
@@ -151,7 +147,6 @@ int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)
 
 
 int main() {
-    const int n = 8;
     int k = 0;
     int count = 1;
     //initializing board
@@ -219,12 +214,14 @@ int main() {
 
 
     cout << "Count=" << count << "    k=" << k << endl;
+    cout << "Sequence" << endl;
     cout << "[";
     for (int i = 0; i < n*n; i++) {
         int* v = visited[i].get();
         cout << "(" << v[0] << "," << v[1] << ")" << ", ";
     }
     cout << "]" << endl;
+    cout << "Board" << endl;
     for (int i = 0; i < n; i++) {
         for (int j = 0; j < n; j++) {
             cout << board[i][j] << "    ";
