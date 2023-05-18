@@ -59,7 +59,17 @@ void KnightTour::print_solution() const {
 
 bool KnightTour::solve_knight_tour(const Position& pos, int move_number) {
     if (move_number == n_ * n_) {
-        return true;
+        // Check if the current position is one move away from the starting position
+        for (int i = 0; i < 8; i++) {
+            const int next_x = pos.x() + moves_[i].x();
+            const int next_y = pos.y() + moves_[i].y();
+
+            if (next_x == start_pos_.x() && next_y == start_pos_.y()) {
+                solution_[next_x][next_y] = move_number;
+                return true;
+            }
+        }
+        return false;
     }
 
     for (int i = 0; i < 8; i++) {
@@ -95,7 +105,7 @@ void KnightTour::initialize_solution() {
 }
 
 int main() {
-    const int n = 5;
+    const int n = 6;
     const Position start_pos(0, 0);
 
     KnightTour tour(n, start_pos);
