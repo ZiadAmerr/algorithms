@@ -151,26 +151,27 @@ int calculateAvailableNextMoves(position currentP, position nextP, int(*myBoard)
 
 
 int main() {
-    int n = 0;
+    const int n = 8;
+    int k = 0;
     int count = 1;
     //initializing board
-    int board[8][8];
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
+    int board[n][n];
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             board[i][j] = 0;
         }
     }
-    position visited[64];
+    position visited[n*n];
     position current = position(0, 0);
     position lastPosition = position(2, 1);
-    visited[n] = current;
+    visited[k] = current;
     board[current.get()[0]][current.get()[1]]=count;
 
-    while (count < 64) {
+    while (count < n*n) {
         position prev = current;
         int possibleMovesSize = 0;
         position* possibleMoves = getPossibleMoves(current,&possibleMovesSize);
-        if (count != 63) {
+        if (count != (n*n-1)) {
             for (int i = 0; i < possibleMovesSize; i++) {
                 if (possibleMoves[i].equals(lastPosition)) {
                     //remove last position from possible moves through shifting
@@ -205,10 +206,10 @@ int main() {
             cout << "Stop Position: (" << current.get()[0] << "," << current.get()[1] << ")" << endl;
             break;
         }
-        n++;
+        k++;
         count++;
         board[current.get()[0]][current.get()[1]] = count;
-        visited[n] = current;
+        visited[k] = current;
         if (current.get()[0] < 0 || current.get()[1] < 0) {
             cout << "Invalid Position: (" << current.get()[0] << "," << current.get()[1] << ")" << endl;
             break;
@@ -217,15 +218,15 @@ int main() {
     }
 
 
-    cout << "Count=" << count << "    n=" << n << endl;
+    cout << "Count=" << count << "    k=" << k << endl;
     cout << "[";
-    for (int i = 0; i < 64; i++) {
+    for (int i = 0; i < n*n; i++) {
         int* v = visited[i].get();
         cout << "(" << v[0] << "," << v[1] << ")" << ", ";
     }
     cout << "]" << endl;
-    for (int i = 0; i < 8; i++) {
-        for (int j = 0; j < 8; j++) {
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
             cout << board[i][j] << "    ";
         }
         cout<<endl;
