@@ -1,7 +1,7 @@
 #include <iostream>
 
 using namespace std;
-const int n = 5;
+const int n = 8;
 class position {
 public:
     int* get() {
